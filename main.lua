@@ -37,7 +37,7 @@ local function interpret(code)
     end
 
     -- Lexer
-    for line in code:gmatch("(.-)\n") do
+    for line in (code .. "\n"):gmatch("(.-)\n") do
         -- Trim whitespace at the start of the line
         line = line:match("^[^%w#]*(.+)") or ""
 
