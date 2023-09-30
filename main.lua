@@ -1,3 +1,13 @@
+
+-- SquidScript
+-- A language, designed for Splatoon fans
+--
+-- This file contains all the code needed to run squidscript files
+-- No, it's not optimal, and no, I'm not planning on making it more efficient
+-- It was a fun project I made in a couple of days for the heck of it
+-- Anyone is free to fork this and improve it if they wish
+--     - James Schutte (jaschutte)
+
 local ENTER_RAW_MODE = "stty -icanon -echo" -- These names are technically wrong, but whatever, check `man stty`
 local ENTER_COOKED_MODE = "stty icanon echo"
 
