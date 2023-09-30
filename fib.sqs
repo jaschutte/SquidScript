@@ -1,0 +1,55 @@
+
+ouch! fib
+    thisway! n == 0
+        woomy output 0
+        thisway@ end_of_fib
+    ngyes
+    thisway! n == 1
+        woomy output 1
+        thisway@ end_of_fib
+    ngyes
+    woomy grandparent 1
+    woomy parent 3
+
+    woomy iterator 2
+    oomy iterator < n
+        woomy current 3
+        woomy current * parent
+        woomy current - grandparent
+        woomy grandparent parent
+        woomy parent current
+        woomy iterator + 1
+    ngyes
+    woomy output current
+
+    help!woomy end_of_fib @CURRENT_LINE
+ouch?
+
+# Read input
+splat! number
+veemo# number input_length
+booyah? 10
+
+# Convert the character string into a value
+woomy iterator 1
+woomy sum 0
+oomy iterator <= input_length
+    veemo current <- number [iterator]
+    woomy current - '0
+    woomy sum * 10
+    woomy sum + current
+    woomy iterator + 1
+ngyes
+
+# Iterate to sum times, printing each fibonacci number
+woomy n 0
+oomy n <= sum
+    ouch@ fib
+    booyah! n
+    booyah? ':
+    booyah? 32
+    booyah! output
+    booyah? 10
+    woomy n + 1
+ngyes
+

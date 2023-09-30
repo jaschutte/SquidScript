@@ -1,0 +1,211 @@
+
+woomy __DEBUG 0
+
+woomy res_x 30
+woomy res_y 10
+woomy field_x res_x
+woomy field_x - 1
+woomy field_y res_y
+woomy field_y - 1
+
+woomy player_x 2
+woomy player_y 5
+woomy player_score 0
+
+woomy ball_x 15
+woomy ball_y 5
+woomy ball_dir_x -1
+woomy ball_dir_y 1
+
+ouch! clear_screen
+    veemo clear_screen_code from: [2J
+    booyah? 27
+    booyah!! clear_screen_code
+ouch?
+
+# This assumes variables CURSER_X and CURSER_Y are set
+ouch! set_cursor_position
+    booyah? 27
+    booyah? '[
+    booyah! CURSER_Y
+    booyah? ';
+    booyah! CURSER_X
+    booyah? 'H
+ouch?
+
+ouch! reset_effects
+    veemo reset_effects_str
+    veemo 27 -> reset_effects_str [1]
+    veemo '[ -> reset_effects_str [2]
+    veemo '0 -> reset_effects_str [3]
+    veemo 'm -> reset_effects_str [4]
+    booyah!! reset_effects_str
+    veemo '4 -> reset_effects_str [3]
+    veemo '0 -> reset_effects_str [4]
+    veemo 'm -> reset_effects_str [5]
+    booyah!! reset_effects_str
+ouch?
+
+ouch! draw_ball
+    woomy CURSER_X ball_x
+    woomy CURSER_Y ball_y
+    ouch@ set_cursor_position
+    booyah? 'o
+ouch?
+
+ouch! draw_outline
+    veemo outline
+    veemo 27 -> outline [1]
+    veemo '[ -> outline [2]
+    veemo '4 -> outline [3]
+    veemo '7 -> outline [4]
+    veemo 'm -> outline [5]
+    veemo 32 -> outline [6]
+
+    woomy CURSER_X 1
+    woomy CURSER_Y 1
+    oomy CURSER_X <= res_x
+        ouch@ set_cursor_position
+        booyah!! outline
+        woomy CURSER_X + 1
+    ngyes
+
+    woomy CURSER_X 1
+    woomy CURSER_Y 1
+    oomy CURSER_Y <= res_y
+        ouch@ set_cursor_position
+        booyah!! outline
+        woomy CURSER_Y + 1
+    ngyes
+
+    woomy CURSER_X 1
+    woomy CURSER_Y res_y
+    oomy CURSER_X <= res_x
+        ouch@ set_cursor_position
+        booyah!! outline
+        woomy CURSER_X + 1
+    ngyes
+
+    woomy CURSER_X res_x
+    woomy CURSER_Y 1
+    oomy CURSER_Y <= res_y
+        ouch@ set_cursor_position
+        booyah!! outline
+        woomy CURSER_Y + 1
+    ngyes
+
+    ouch@ reset_effects
+ouch?
+
+ouch! draw_player
+    veemo player_cell_color
+    veemo 27 -> player_cell_color [1]
+    veemo '[ -> player_cell_color [2]
+    veemo '1 -> player_cell_color [3]
+    veemo '0 -> player_cell_color [4]
+    veemo '7 -> player_cell_color [5]
+    veemo 'm -> player_cell_color [6]
+    veemo 32 -> player_cell_color [7]
+
+    woomy CURSER_X player_x
+    woomy CURSER_Y player_y
+    ouch@ set_cursor_position
+    booyah!! player_cell_color
+
+    woomy CURSER_Y + 1
+    ouch@ set_cursor_position
+    booyah!! player_cell_color
+
+    ouch@ reset_effects
+ouch?
+
+ouch! draw_score
+    woomy CURSER_X 1
+    woomy CURSER_Y res_y
+    woomy CURSER_Y + 1
+    ouch@ set_cursor_position
+
+    veemo label from: Player Score:
+    booyah!! label
+
+    booyah? 32
+    booyah! player_score
+ouch?
+
+ouch! simulate_ball
+    woomy ball_x + ball_dir_x
+    woomy ball_y + ball_dir_y
+
+    thisway! ball_y = 1
+        woomy ball_dir_y * -1
+        woomy ball_y + ball_dir_y
+        woomy ball_y + ball_dir_y
+    ngyes
+    thisway! ball_y = res_y
+        woomy ball_dir_y * -1
+        woomy ball_y + ball_dir_y
+        woomy ball_y + ball_dir_y
+    ngyes
+
+    thisway! ball_x = 2
+        thisway! ball_y >= player_y
+            woomy expr player_y
+            woomy expr + 1
+            thisway! ball_y <= expr
+                woomy ball_dir_x * -1
+                woomy ball_x + ball_dir_x
+                woomy ball_x + ball_dir_x
+                woomy player_score + 1
+            ngyes
+        ngyes
+    ngyes
+
+    thisway! ball_x = 1
+        woomy ball_dir_x -1
+        woomy ball_x 15
+        woomy ball_y 5
+        woomy player_score 0
+    ngyes
+    thisway! ball_x = field_x
+        woomy ball_dir_x * -1
+        woomy ball_x + ball_dir_x
+        woomy ball_x + ball_dir_x
+    ngyes
+
+
+ouch?
+
+ouch! get_player_input
+    ouch@ reset_effects
+    
+    splat? input
+    thisway! input = 's
+        woomy player_y + 1
+        thisway! player_y = 9
+            woomy player_y - 1
+        ngyes
+    ngyes
+    thisway! input = 'w
+        woomy player_y - 1
+        thisway! player_y = 1
+            woomy player_y + 1
+        ngyes
+    ngyes
+ouch?
+
+oomy 1 = 1
+    ouch@ clear_screen
+    ouch@ draw_outline
+    ouch@ draw_player
+    ouch@ draw_ball
+    ouch@ draw_score
+
+    woomy CURSER_X 1
+    woomy CURSER_Y 1
+    ouch@ set_cursor_position
+
+    ouch@ get_player_input
+
+    ouch@ simulate_ball
+ngyes
+
